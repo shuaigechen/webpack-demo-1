@@ -1,22 +1,23 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
+//开发
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+
+const base = require('./webpack.config.base.js');
 
 module.exports = {
-    mode: 'production',
-    entry: './src/index.js',
-    output: {
-        filename: 'index.[contenthash].js'
+    ...base,//把base所有属性抄过来
+    devtool: "inline-source-map",
+    devServer: {
+        contentBase: "./dist"
     },
-    plugins: [new HtmlWebpackPlugin({
-        title: "XDML - 写代码啦",
-        template: "src/assets/index.html"
-    })],
     module: {
         rules: [
+            ...base.module.rules,
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
-            },
-        ],
-    },
+            }
+        ]
+    }
 };
